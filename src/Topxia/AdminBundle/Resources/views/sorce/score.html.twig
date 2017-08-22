@@ -1,0 +1,62 @@
+{% extends 'TopxiaAdminBundle:sorce:layout.html.twig' %}
+
+
+
+{% block main %}
+    <script>
+        function getExcel(){
+            var year = $("#year").val();
+            var department = $("#department").val();
+            myajax('/functionDir/createExcel/make_xueshengtongji.php?year='+year+'&department='+department);
+        }
+    </script>
+    <div style="height: 40px">
+        <form action="{{ path('admin_sorce_statistical') }}" method="get">
+            <span>统计年度</span><input id="year" name="year" value="{{ year }}"/>
+            <span>科室</span>
+            <select id="department" name="department" >
+                <option value="">全部</option>
+                {% for k in classr %}
+                   <option {% if department == k.id %} selected {% endif %} value="{{ k.id }}">{{ k.title }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="查询" >
+            <button onclick="getExcel()" style="float: right">Excel下载</button>
+        </form>
+
+    </div>
+
+    <table id="user-table" class="table table-striped table-hover" data-search-form="#user-search-form">
+        <thead>
+        <tr>
+            <th>科室名称</th>
+            <th>用户名</th>
+            <th>职称</th>
+            <th>年龄</th>
+            <th>是否合格</th>
+            <th>备注</th>
+        </tr>
+        </thead>
+        <tbody>
+                {% for ar in arry %}
+                    <tr>
+                        <td>{{ ar[0] }}</td>
+                        <td>{{ ar[1] }}</td>
+                        <td>{{ ar[2] }}</td>
+                        <td>{{ ar[3] }}</td>
+                        <td>{{ ar[4] }}</td>
+                        <td>{{ ar[5] }}</td>
+                    </tr>
+                 {% endfor %}
+        </tbody>
+    </table>
+    {{ paginator.currentPage }}
+   {# {{ web_macro.paginator(paginator) }} #}
+    <ul  class="pagination">
+        <li {% if paginator.currentPage == paginator.firstPage %}class="disabled"{% endif %}><a  href="{{ paginator.getPageUrl(paginator.previousPage) }}">上一页</a></li>
+        {% for page in paginator.pages %}
+            <li {% if page == paginator.currentPage %}class="active"{% endif %}><a href="{{ paginator.getPageUrl(page) }}">{{ page }}</a></li>
+        {% endfor %}
+        <li {% if paginator.currentPage == paginator.lastPage %}class="disabled"{% endif %}><a  href="{{ paginator.getPageUrl(paginator.nextPage) }}">下一页</a></li>
+    </ul>
+{% endblock %}

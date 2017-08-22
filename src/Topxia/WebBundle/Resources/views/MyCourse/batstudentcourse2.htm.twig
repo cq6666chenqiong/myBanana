@@ -1,0 +1,27 @@
+{% extends 'TopxiaWebBundle:CourseStudentManage:index.html.twig' %}
+
+{% block title %}学员管理 - {{ parent() }}{% endblock %}
+
+{% set submenu = 'student' %}
+
+{% set script_controller = 'course-manage/students' %}
+
+{% block maincontent %}
+
+
+
+  <div class="form-group" style="width: 100%">
+    <form action="{{ path('course_fetch_bat_student',{courseId:courseId}) }}">
+      <select id="keshi" name="keshi" class="form-control" style="width: 30%;float: left">
+          {% for k in classr %}
+            <option {% if keshi == k.id %} selected {% endif %} value="{{ k.id }}"> {{ k.title }} </option>
+          {% endfor %}
+      </select>
+      <button type="submit" clas="btn bbtn btn-info btn-sm mhs" style="width: 10%">搜索</button>
+    </form>
+  </div>
+    分配完成
+
+
+
+{% endblock %}
