@@ -65,112 +65,157 @@
   </head>
 <form id="user-edit-form" class="form-horizontal" method="post" action="{{ url('admin_user_edit', {id:user.id}) }}">
 
-  <div class="row form-group">
+              <div class="row form-group">
+                <div class="col-md-2 control-label">
+                  <label for="truename">工号</label>
+                </div>
+                <div class="col-md-7 controls">
+                  <input type="text" id="nickname" name="nickname" class="form-control" value="{{user.nickname}}" >
+                </div>
+              </div>
+
+              <div class="row form-group">
+                <div class="col-md-2 control-label">
+                  <label for="truename">姓名</label>
+                </div>
+                <div class="col-md-7 controls">
+                  <input type="text" id="truename" name="truename" class="form-control" value="{{profile.truename}}" >
+                </div>
+              </div>
+
+              <div class="row form-group">
+                <div class="col-md-2 control-label">
+                  <label for="gender">性别</label>
+                </div>
+                <div class="col-md-7 controls radios">
+                  <div id="gender">
+                    <input type="radio" id="gender_0" name="gender" value="male"
+                    {% if profile.gender == 'male' %} checked="checked" {% endif %}>
+                    <label for="gender_0">男</label>
+
+                    <input type="radio" id="gender_1" name="gender" value="female"
+                    {% if profile.gender == 'female' %} checked="checked" {% endif %}>
+                    <label for="gender_1">女</label>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="row form-group">
+                <div class="col-md-2 control-label">
+                  <label for="idcard">身份证号</label>
+                </div>
+                <div class="col-md-7 controls">
+                  <input type="text" id="idcard" name="idcard" class="form-control" value="{{profile.idcard}}">
+                </div>
+              </div>
+
+              <div class="row form-group">
+                <div class="col-md-2 control-label">
+                  <label for="idcard">出生日期</label>
+                </div>
+                <div class="col-md-7 controls">
+                  <input type="text" id="varcharField1" name="varcharField1" class="form-control" value="{{profile.varcharField1}}">
+                </div>
+              </div>
+
+            <div class="row form-group">
+              <div class="col-md-2 control-label">
+                <label for="mobile">手机号码</label>
+              </div>
+              <div class="col-md-7 controls">
+                <input type="text" id="mobile" name="mobile" class="form-control" value="{{profile.mobile|default('')}}">
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-md-2 control-label">
+                <label for="job">职称</label>
+              </div>
+              <div class="col-md-7 controls">
+                <input type="text" id="job" name="job" class="form-control" value="{{profile.job}}">
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-md-2 control-label">
+                <label for="job">职称分类</label>
+              </div>
+              <div class="col-md-7 controls">
+                <input type="text" id="varcharField2" name="varcharField2" class="form-control" value="{{profile.varcharField2}}">
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-md-2 control-label">
+                <label for="job">人员分类</label>
+              </div>
+              <div class="col-md-7 controls">
+                <input type="text" id="varcharField3" name="varcharField3" class="form-control" value="{{profile.varcharField3}}">
+              </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-2 control-label">
+                  <label for="company">科室分类</label>
+                </div>
+                <div class="col-md-7 controls">
+
+                  <select name="company" class="form-control">
+                      {% for c in classr %}
+                        <option value="{{ c.id }}" {% if profile.company == c.id %} selected="selected" {% endif %}>{{ c.title }}</option>
+                      {% endfor %}
+                  </select>
+               </div>
+            </div>
+
+          <div class="row form-group">
+            <div class="col-md-2 control-label">
+              <label for="job">所属科室</label>
+            </div>
+            <div class="col-md-7 controls">
+              <input type="text" id="varcharField4" name="varcharField4" class="form-control" value="{{profile.varcharField4}}">
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-md-2 control-label">
+              <label for="job">最高学位</label>
+            </div>
+            <div class="col-md-7 controls">
+              <input type="text" id="varcharField5" name="varcharField5" class="form-control" value="{{profile.varcharField5}}">
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-md-2 control-label">
+              <label for="job">最高学历</label>
+            </div>
+            <div class="col-md-7 controls">
+              <input type="text" id="varcharField6" name="varcharField6" class="form-control" value="{{profile.varcharField6}}">
+            </div>
+          </div>
+
+            <div class="row form-group">
+              <div class="col-md-2 control-label">
+                <label for="signature">其他</label>
+              </div>
+              <div class="col-md-7 controls">
+                <textarea type="text" rows="4" maxlength="80" id="signature" name="signature" class="form-control">{{profile.signature}}</textarea>
+             </div>
+            </div>
+
+
+
+    <!-- 隐藏部分  -->
+  <div class="row form-group" style="display: none">
     <div class="col-md-2 control-label">
-      <label for="truename">姓名</label>
+      <label for="title">学位</label>
     </div>
     <div class="col-md-7 controls">
-      <input type="text" id="truename" name="truename" class="form-control" value="{{profile.truename}}" >
+      <input type="text" id="title" name="title" class="form-control" value="{{profile.title}}">
     </div>
   </div>
-
-  <div class="row form-group">
-    <div class="col-md-2 control-label">
-      <label for="gender">性别</label>
-    </div>
-    <div class="col-md-7 controls radios">
-      <div id="gender">
-        <input type="radio" id="gender_0" name="gender" value="male"
-        {% if profile.gender == 'male' %} checked="checked" {% endif %}>
-        <label for="gender_0">男</label>
-
-        <input type="radio" id="gender_1" name="gender" value="female"
-        {% if profile.gender == 'female' %} checked="checked" {% endif %}>
-        <label for="gender_1">女</label>
-      </div>
-
-    </div>
-  </div>
-
-    <div class="row form-group">
-      <div class="col-md-2 control-label"> 
-        <label for="idcard">身份证号</label>
-      </div>
-      <div class="col-md-7 controls">
-        <input type="text" id="idcard" name="idcard" class="form-control" value="{{profile.idcard}}">
-     </div>
-    </div>
-  <div class="row form-group">
-    <div class="col-md-2 control-label">
-      <label for="mobile">手机号码</label>
-    </div>
-    <div class="col-md-7 controls">
-      <input type="text" id="mobile" name="mobile" class="form-control" value="{{profile.mobile|default('')}}">
-    </div>
-  </div>
-{#
-    {% if (user.verifiedMobile|length) > 0 %}
-      <div class="row form-group">
-        <div class="col-md-2 control-label"> 
-          <label for="mobile">手机号码</label>
-        </div>
-        <div class="col-md-7 controls">
-          <div class="control-text"> {{user.verifiedMobile|default('')}}<span class="text-success">(已绑定)</span> </div>
-       </div>
-      </div>
-    {% else %}
-      <div class="row form-group">
-        <div class="col-md-2 control-label"> 
-          <label for="mobile">手机号码</label>
-        </div>
-        <div class="col-md-7 controls">
-          <input type="text" id="mobile" name="mobile" class="form-control" value="{{profile.mobile|default('')}}">
-       </div>
-      </div>
-    {% endif %}
-#}
-    <div class="row form-group">
-        <div class="col-md-2 control-label"> 
-          <label for="company">科室</label>
-        </div>
-        <div class="col-md-7 controls">
-          {#<input type="text" id="company" name="company" class="form-control" value="{{profile.company}}"> #}
-
-          <select name="company" class="form-control">
-              {% for c in classr %}
-                <option value="{{ c.id }}" {% if profile.company == c.id %} selected="selected" {% endif %}>{{ c.title }}</option>
-              {% endfor %}
-          </select>
-       </div>
-    </div>
-    
-    <div class="row form-group">
-      <div class="col-md-2 control-label"> 
-        <label for="job">职称</label>
-      </div>
-      <div class="col-md-7 controls">
-        <input type="text" id="job" name="job" class="form-control" value="{{profile.job}}">
-     </div>
-    </div>
-
-    <p></p>
-    <div class="row form-group">
-      <div class="col-md-2 control-label"> 
-        <label for="title">学位</label>
-      </div>
-      <div class="col-md-7 controls">
-        <input type="text" id="title" name="title" class="form-control" value="{{profile.title}}">
-     </div>
-    </div>
-    <p></p>
-    <div class="row form-group">
-      <div class="col-md-2 control-label"> 
-        <label for="signature">其他</label>
-      </div>
-      <div class="col-md-7 controls">
-        <textarea type="text" rows="4" maxlength="80" id="signature" name="signature" class="form-control">{{profile.signature}}</textarea>
-     </div>
-    </div>
     <p></p>
     <div class="row form-group" style="display: none">
       <div class="col-md-2 control-label"> 
@@ -208,7 +253,7 @@
      </div>
     </div>
     <p></p>
-    <div class="row form-group">
+    <div class="row form-group" style="display: none">
       <div class="col-md-2 control-label"> 
         <label for="weixin">工号</label>
       </div>
@@ -277,3 +322,27 @@
   <script>app.load('user/edit-modal')</script>
 
 {% endblock %}
+
+
+
+{#
+    {% if (user.verifiedMobile|length) > 0 %}
+      <div class="row form-group">
+        <div class="col-md-2 control-label">
+          <label for="mobile">手机号码</label>
+        </div>
+        <div class="col-md-7 controls">
+          <div class="control-text"> {{user.verifiedMobile|default('')}}<span class="text-success">(已绑定)</span> </div>
+       </div>
+      </div>
+    {% else %}
+      <div class="row form-group">
+        <div class="col-md-2 control-label">
+          <label for="mobile">手机号码</label>
+        </div>
+        <div class="col-md-7 controls">
+          <input type="text" id="mobile" name="mobile" class="form-control" value="{{profile.mobile|default('')}}">
+       </div>
+      </div>
+    {% endif %}
+#}

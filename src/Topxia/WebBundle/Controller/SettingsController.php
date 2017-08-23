@@ -16,7 +16,6 @@ class SettingsController extends BaseController
         $user = $this->getCurrentUser();
 
         $profile = $this->getUserService()->getUserProfile($user['id']);
-
         $profile['title'] = $user['title'];
 
         if ($request->getMethod() == 'POST') {

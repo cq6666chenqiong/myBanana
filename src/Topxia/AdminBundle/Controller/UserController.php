@@ -224,24 +224,20 @@ class UserController extends BaseController
     public function editAction(Request $request, $id)
     {
         $user = $this->getUserService()->getUser($id);
-
-        $profile          = $this->getUserService()->getUserProfile($user['id']);
+        $profile = $this->getUserService()->getUserProfile($user['id']);
         $profile['title'] = $user['title'];
-error_log($profile['title']);
         if ($request->getMethod() == 'POST') {
             $profile = $request->request->all();
             if (!((strlen($user['verifiedMobile']) > 0) && isset($profile['mobile']))) {
+                error_log("nickname====================1".$profile['nickname']);
                 $profile = $this->getUserService()->updateUserProfile($user['id'], $profile);
                 $this->getLogService()->info('user', 'edit', "管理员编辑用户资料 {$user['nickname']} (#{$user['id']})", $profile);
             } else {
                 $this->setFlashMessage('danger', '用户已绑定的手机不能修改。');
             }
-
             return $this->redirect($this->generateUrl('admin_user'));
         }
-
         $fields = $this->getFields();
-
         //科室列表
         $classr = array();
         $con = mysqli_connect(System::$DBADDR,System::$DBUSER,System::$DBPASSWORD);
@@ -249,22 +245,17 @@ error_log($profile['title']);
         {
             die('Could not connect: ' . mysql_error());
         }
-
         mysqli_select_db($con,System::$DBNAME);
         mysqli_query($con,"set names 'utf8'");
         $result = mysqli_query($con,"select id,title from classroom where status = 'published'");
         if(!is_null($result)){
             while($row = mysqli_fetch_array($result)){
                 array_push($classr,$row);
-                /*
-                $key = $row['id'];
-                $value = $row['title'];
-                $classr[$key] = $value;
-                */
             }
         }
         mysqli_close($con);
        // print_r("uuuuuuuuuu".$classr);
+
         return $this->render('TopxiaAdminBundle:User:edit-modal.html.twig', array(
             'user'    => $user,
             'profile' => $profile,

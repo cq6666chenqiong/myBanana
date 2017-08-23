@@ -804,6 +804,8 @@ class UserServiceImpl extends BaseService implements UserService
     {
         $user = $this->getUser($id);
 
+        $nickname = $fields['nickname'];
+
         if (empty($user)) {
             throw $this->createServiceException('用户不存在，更新用户失败。');
         }
@@ -877,6 +879,10 @@ class UserServiceImpl extends BaseService implements UserService
         }
 
         unset($fields['title']);
+        if (!empty($nickname)) {
+            $this->getUserDao()->updateUser($id, array('nickname' => $nickname));
+            //  $this->dispatchEvent('user.update', new ServiceEvent(array('user' => $user, 'fields' => $fields)));
+        }
 
         if (!empty($fields['gender']) && !in_array($fields['gender'], array('male', 'female', 'secret'))) {
             throw $this->createServiceException('性别不正确，更新用户失败。');
@@ -886,9 +892,11 @@ class UserServiceImpl extends BaseService implements UserService
             throw $this->createServiceException('生日不正确，更新用户失败。');
         }
 
+        /*
         if (!empty($fields['mobile']) && !SimpleValidator::mobile($fields['mobile'])) {
             throw $this->createServiceException('手机不正确，更新用户失败。');
         }
+        */
 
         if (!empty($fields['qq']) && !SimpleValidator::qq($fields['qq'])) {
             throw $this->createServiceException('QQ不正确，更新用户失败。');
