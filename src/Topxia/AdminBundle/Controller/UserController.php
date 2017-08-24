@@ -168,6 +168,7 @@ class UserController extends BaseController
         if ($request->getMethod() == 'POST') {
             $formData         = $request->request->all();
             $formData['type'] = 'import';
+            $formData['email'] = $formData['nickname']."@hospital.com";
             $registration     = $this->getRegisterData($formData, $request->getClientIp());
             $user             = $this->getAuthService()->register($registration);
             $this->get('session')->set('registed_email', $user['email']);
@@ -178,7 +179,7 @@ class UserController extends BaseController
                 $this->getUserService()->changeUserRoles($user['id'], $roles);
             }
 
-            $this->getLogService()->info('user', 'add', "管理员添加新用户 {$user['nickname']} ({$user['id']})");
+            //$this->getLogService()->info('user', 'add', "管理员添加新用户 {$user['nickname']} ({$user['id']})");
 
             return $this->redirect($this->generateUrl('admin_user'));
         }

@@ -38,7 +38,34 @@
 
     <div class="form-group" style="width: 100%">
         <form action="{{ path('course_fetch_bat_student',{courseId:courseId}) }}">
+            科室分类
             <select id="keshi" name="keshi" class="form-control" style="width: 30%;float: left">
+                {% for k in classr %}
+                    <option {% if keshi == k.id %} selected {% endif %} value="{{ k.id }}"> {{ k.title }} </option>
+                {% endfor %}
+            </select>
+            所属科室
+            <select id="sskeshi" name="sskeshi" class="form-control" style="width: 30%;float: left">
+                {% for k in classr %}
+                    <option {% if keshi == k.id %} selected {% endif %} value="{{ k.id }}"> {{ k.title }} </option>
+                {% endfor %}
+            </select>
+            人员类别
+            <select id="memberType" name="memberType" class="form-control" style="width: 30%;float: left">
+                {% for k in classr %}
+                    <option {% if keshi == k.id %} selected {% endif %} value="{{ k.id }}"> {{ k.title }} </option>
+                {% endfor %}
+            </select>
+            职称分类
+            <select id="jobType" name="jobType" class="form-control" style="width: 30%;float: left">
+                {% for k in classr %}
+                    <option {% if keshi == k.id %} selected {% endif %} value="{{ k.id }}"> {{ k.title }} </option>
+                {% endfor %}
+            </select>
+            出生日期
+            <input type="text" name="birthday"/>
+            最高学位
+            <select id="degree" name="degree" class="form-control" style="width: 30%;float: left">
                 {% for k in classr %}
                     <option {% if keshi == k.id %} selected {% endif %} value="{{ k.id }}"> {{ k.title }} </option>
                 {% endfor %}

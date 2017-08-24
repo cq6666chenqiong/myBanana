@@ -5,7 +5,7 @@
         color: black;
     }
 </style>
-<tr id="user-table-tr-{{ user.id }}">
+<tr id="user-table-tr-{{ user.nickname }}">
   <td>
       <span class="fs">
     <strong class="fs">{{ admin_macro.user_link(user) }}</strong>
@@ -25,29 +25,20 @@
   </td>
 
   <td>
-
-
-    {% if user.verifiedMobile %}
-      {{ user.verifiedMobile }}
-    {% elseif profile.mobile %}
-      {{ profile.mobile }}
-    {% else %}
-       -- 
-    {% endif %}
-
+     {{ profile.truename }}
   </td>
 
   <td>
-      {{ profile.weixin }}
+      {{ profile.job }}
   </td>
   <td>
       {{ classr[profile.company] }}
   </td>
   <td>
-      {{ user.title|default('') }}
+      {{ profile.varcharField4|default('') }}
   </td>
   <td>
-      {{ profile.job|default('') }}
+      {{ profile.varcharField5|default('') }}
   </td>
 
 

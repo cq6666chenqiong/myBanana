@@ -65,7 +65,7 @@
   </head>
 <form id="user-create-form" class="form-horizontal" method="post" action="{{ path('admin_user_create')}}">
 
-  <div class="row form-group">
+  <div class="row form-group" style="display: none">
     <div class="col-md-2 control-label">
       <label for="email">邮箱地址</label>
     </div>
@@ -76,7 +76,7 @@
 
   <div class="row form-group">
     <div class="col-md-2 control-label">
-      <label for="nickname">用户名</label>
+      <label for="nickname">工号</label>
     </div>
     <div class="col-md-7 controls">
       <input type="text" id="nickname" name="nickname" data-url="{{path('admin_user_create_nickname_check')}}" class="form-control" >

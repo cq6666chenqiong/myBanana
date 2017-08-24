@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\SecurityContext;
 
 class RegisterController extends BaseController
 {
+    /*
     protected function getNavigationService()
     {
         return $this->getServiceKernel()->createService('Content.NavigationService');
@@ -26,7 +27,7 @@ class RegisterController extends BaseController
     {
         $fields = $request->query->all();
         $user   = $this->getCurrentUser();
-error_log("come in");
+        error_log("come in");
         if ($user->isLogin()) {
             return $this->createMessageResponse('info', '你已经登录了', null, 3000, $this->getTargetPath($request));
         }
@@ -81,24 +82,24 @@ error_log("come in");
                     $user = $this->authenticateUser($registration);
                 }
                 error_log("go on");
-                /*
-                if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
-                    $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
-                } else {
-                    $error = $request->getSession()->get(SecurityContext::AUTHENTICATION_ERROR);
-                }
 
-                if ($this->getWebExtension()->isMicroMessenger() && $this->setting('login_bind.enabled', 0) && $this->setting('login_bind.weixinmob_enabled', 0)) {
-                    $inviteCode = $request->query->get('inviteCode');
-                    return $this->redirect($this->generateUrl('login_bind', array('type' => 'weixinmob', '_target_path' => $this->getTargetPath($request), 'inviteCode' => $inviteCode)));
-                }
+//                if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
+//                    $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
+//                } else {
+//                    $error = $request->getSession()->get(SecurityContext::AUTHENTICATION_ERROR);
+//                }
+//
+//                if ($this->getWebExtension()->isMicroMessenger() && $this->setting('login_bind.enabled', 0) && $this->setting('login_bind.weixinmob_enabled', 0)) {
+//                    $inviteCode = $request->query->get('inviteCode');
+//                    return $this->redirect($this->generateUrl('login_bind', array('type' => 'weixinmob', '_target_path' => $this->getTargetPath($request), 'inviteCode' => $inviteCode)));
+//                }
+//
+//                return $this->render('TopxiaWebBundle:Login:index.html.twig', array(
+//                    'last_username' => $request->getSession()->get(SecurityContext::LAST_USERNAME),
+//                    'error'         => $error,
+//                    '_target_path'  => $this->getTargetPath($request)
+//                ));
 
-                return $this->render('TopxiaWebBundle:Login:index.html.twig', array(
-                    'last_username' => $request->getSession()->get(SecurityContext::LAST_USERNAME),
-                    'error'         => $error,
-                    '_target_path'  => $this->getTargetPath($request)
-                ));
-                */
 
                 $loginScript = $this->getAuthService()->syncLogin($user['id']);
 
@@ -115,35 +116,35 @@ error_log("come in");
 
                 return $response;
                 //$user = $this->getCurrentUser();
-                /*自增到主页面
-                error_log("userId:".$user['id']);
-                if (!empty($user['id'])) {
-                    $this->getBatchNotificationService()->checkoutBatchNotification($user['id']);
-                }
-                $friendlyLinks = $this->getNavigationService()->getOpenedNavigationsTreeByType('friendlyLink');
-                return $this->render('TopxiaWebBundle:Default:index.html.twig', array('friendlyLinks'=>$friendlyLinks));
-                */
-                /*
-                $goto = $this->generateUrl('register_submited', array(
-                    'id'   => $user['id'],
-                    'hash' => $this->makeHash($user),
-                    'goto' => $this->getTargetPath($request)
-                ));
-                */
-               // error_log("go 2");
-                /*
-                 * 验证后门是否通过
-                if ($this->getAuthService()->hasPartnerAuth()) {
-                    $currentUser = $this->getCurrentUser();
+//                自增到主页面
+//                error_log("userId:".$user['id']);
+//                if (!empty($user['id'])) {
+//                    $this->getBatchNotificationService()->checkoutBatchNotification($user['id']);
+//                }
+//                $friendlyLinks = $this->getNavigationService()->getOpenedNavigationsTreeByType('friendlyLink');
+//                return $this->render('TopxiaWebBundle:Default:index.html.twig', array('friendlyLinks'=>$friendlyLinks));
+//
+//
+//                $goto = $this->generateUrl('register_submited', array(
+//                    'id'   => $user['id'],
+//                    'hash' => $this->makeHash($user),
+//                    'goto' => $this->getTargetPath($request)
+//                ));
+//
+//                error_log("go 2");
+//
+//                 * 验证后门是否通过
+//                if ($this->getAuthService()->hasPartnerAuth()) {
+//                    $currentUser = $this->getCurrentUser();
+//
+//                    if (!$currentUser->isLogin()) {
+//                        $this->authenticateUser($user);
+//                    }
+//
+//                    $goto = $this->generateUrl('partner_login', array('goto' => $goto));
+//                }
 
-                    if (!$currentUser->isLogin()) {
-                        $this->authenticateUser($user);
-                    }
-
-                    $goto = $this->generateUrl('partner_login', array('goto' => $goto));
-                }
-                */
-//error_log("path".$goto);
+                //error_log("path".$goto);
               //  return $this->redirect($this->generateUrl('register_success', array('goto' => $goto)));
             } catch (ServiceException $se) {
                 $this->setFlashMessage('danger', $se->getMessage());
@@ -644,6 +645,6 @@ error_log("come in");
             return true;
         }
     }
-
+*/
 
 }

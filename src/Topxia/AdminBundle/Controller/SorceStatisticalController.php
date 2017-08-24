@@ -65,6 +65,7 @@ class SorceStatisticalController  extends BaseController
                 array_push($arry1,$row['job']);
                 array_push($arry1,$row['idcard']);
                 array_push($arry1,$row['department']);
+                error_log("ks==1111===".$row['department']);
                 if($row['score']>=13){
                     array_push($arry1,true);
                 }else{
@@ -86,17 +87,18 @@ class SorceStatisticalController  extends BaseController
         foreach ($result2 as $item) {
             $departments[$item['id']] = $item['title'];
         }
+
         $arry = array();
         foreach ($arryw as $item){
             $ar = array();
             if(is_null($item[5])){
                 continue;
             }
-            $ar[0] = $departments[$item[5]];
+            $ar[0] = $item[5]!=''?$departments[$item[5]]:'科室未定义';
+            $ar[0] = $ar[0]!=''?$ar[0]:'';
             $ar[1] = $item[1];
             $ar[2] = $item[3];
-            $age = System::getAgeByIDcard($item[4]);
-            $ar[3] = $age;
+            $ar[3] = System::getAgeByIDcard($item[4]);;
             $sql1 = "select DISTINCT(cll.courseId) courseId from course_lesson_learn cll ".
                     "left join course c on c.id = cll.courseId  ".
                     "where cll.userId = ".$item[0]."  and c.buyable = 1 ".
@@ -130,7 +132,6 @@ class SorceStatisticalController  extends BaseController
                 $ar[4] = "不及格";
             }
             $ar[5] = $remark2.",".$remark1;
-            error_log($ar[5]);
             array_push($arry,$ar);
         }
         $sql = "select id,title from classroom";
