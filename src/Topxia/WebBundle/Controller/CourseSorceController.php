@@ -34,15 +34,18 @@ class CourseSorceController extends BaseController
         mysqli_select_db($con,System::$DBNAME);
         mysqli_multi_query($con,"set names 'utf8'");
         $result = mysqli_query($con,$sql);
-        $sorce = array();
+        $score = array();
         if(!empty($result)){
-            $sorce = mysqli_fetch_array($result);
+            while(($row = mysqli_fetch_array($result)) != null){
+                array_push($score,$row);
+            }
         }
-
         //$paginator = new Paginator($this->get('request'), 60, 20);
         $con->close();
+        error_log(json_encode($score));
         return $this->render('TopxiaWebBundle:MyCourse:score.html.twig', array(
-            'sorce'                       =>  $sorce
+            'score'  =>  $score,
+            'num' => sizeof($score)
         ));
     }
 
