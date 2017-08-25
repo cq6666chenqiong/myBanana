@@ -102,7 +102,11 @@ class CourseWorkController extends BaseController
     public function batstudent1indexAction(Request $request,$courseId){
         $classr = array();
         $keshi = $request->query->get('keshi');
-        error_log('keshi:'.$keshi);
+        $sskeshi = $request->query->get('sskeshi');
+        $memberType = $request->query->get('memberType');
+        $jobType = $request->query->get('jobType');
+        $birthday = $request->query->get('birthday');
+        $degree = $request->query->get('degree');
         $con = mysqli_connect(System::$DBADDR,System::$DBUSER,System::$DBPASSWORD);
         if (!$con)
         {
@@ -121,7 +125,14 @@ class CourseWorkController extends BaseController
 
         $users = array();
         $sql = "select u.id id,u.nickname nickname,p.weixin num from user_profile p join user u on p.id = u.id where p.company = '".$keshi."'
-         and u.id not in ( select userId from course_member where courseId = ".$courseId.");";
+         and u.id not in ( select userId from course_member where courseId = ".$courseId.") "
+         ." p.varcharField4 = ".$sskeshi
+            ." p.varcharField4 = ".$sskeshi
+            ." p.varcharField3 = ".$memberType
+            ." p.job = ".$jobType
+            ." p.varcharField1 like %".$birthday."%"
+            ." p.varcharField5 = ".$degree
+            .";";
         mysqli_select_db($con,System::$DBNAME);
         mysqli_query($con,"set names 'utf8'");
         $result = mysqli_query($con,$sql);

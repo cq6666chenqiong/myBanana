@@ -1,7 +1,7 @@
 <?php
 require_once 'phpExcelReader/Excel/reader.php';
 require_once 'System.php';
-
+//批量长传用户
 $a = $_FILES["file"]["tmp_name"];
 error_log($a);
 //$b = "/var/file/".$_FILES["file"]["name"];
@@ -138,8 +138,8 @@ VALUES ( '".$arry[0]."@hospital.com"."', '', 'TD0T0O925x6QH8vcHgr95+Z3O0QQxgFZ0S
 $con->close();
 
 echo json_encode(array(
-    'a'=>1,
-    'b'=>2
+    'code'=>1,
+    'status'=>'success'
 ));
 
 

@@ -3490,9 +3490,17 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
 
         }
 
-        // school_sorce
-        if (0 === strpos($pathinfo, '/sorce') && preg_match('#^/sorce/(?P<userId>[^/]++)/index$#s', $pathinfo, $matches)) {
-            return $this->mergeDefaults(array_replace($matches, array('_route' => 'school_sorce')), array (  '_controller' => 'Topxia\\WebBundle\\Controller\\CourseSorceController::indexAction',));
+        if (0 === strpos($pathinfo, '/sorce')) {
+            // school_sorce
+            if (preg_match('#^/sorce/(?P<userId>[^/]++)/index$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'school_sorce')), array (  '_controller' => 'Topxia\\WebBundle\\Controller\\CourseSorceController::indexAction',));
+            }
+
+            // school_member_sorce
+            if ($pathinfo === '/sorce/member') {
+                return array (  '_controller' => 'Topxia\\WebBundle\\Controller\\CourseSorceController::memberScoreAction',  '_route' => 'school_member_sorce',);
+            }
+
         }
 
         if (0 === strpos($pathinfo, '/work')) {

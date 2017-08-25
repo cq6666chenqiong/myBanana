@@ -12,7 +12,10 @@ use Topxia\Common\Paginator;
 use Topxia\Common\ArrayToolkit;
 use Topxia\Service\Util\myBananaLiveClient;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Topxia\System;
+
+
 
 class CourseSorceController extends BaseController
 {
@@ -23,7 +26,7 @@ class CourseSorceController extends BaseController
         {
             die('Could not connect: ' . mysql_error());
         }
-        $sql = "select u.nickname nickname,s.score xuefen,c.title,s.createTime from user u 
+        $sql = "select u.nickname nickname,s.score xuefen,c.title title,s.createTime createTime,s.courseName courseName from user u 
         JOIN user_score s on s.userId = u.id 
         join course c on s.courseId = c.id
         where u.id = ".$userId.";";
@@ -35,6 +38,7 @@ class CourseSorceController extends BaseController
         if(!empty($result)){
             $sorce = mysqli_fetch_array($result);
         }
+
         //$paginator = new Paginator($this->get('request'), 60, 20);
         $con->close();
         return $this->render('TopxiaWebBundle:MyCourse:score.html.twig', array(
@@ -42,4 +46,20 @@ class CourseSorceController extends BaseController
         ));
     }
 
+    public function memberScoreAction(Request $request)
+    {
+        $userNum = $request->query->get('memberNum');
+        $con = System::getConnection();
+        $sql = "select u.nickname memberNum, p.truename truename ,s.score score ,c.title title,s.courseName courseName,s.year year 
+        from user_score s join user u on s.userId = u.id join user_profile p on p.id = u.id 
+        left join course c on c.id = s.courseId
+        where u.nickname =  '" . $userNum . "';";
+        $result = System::getManyResult($con, $sql);
+        error_log(json_encode(
+            $result
+        ));
+        System::closeConnection($con);
+
+        return new Response(json_encode($result));
+    }
 }

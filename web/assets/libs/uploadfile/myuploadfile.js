@@ -266,7 +266,10 @@ function myajaxFileUpload(path,id) {
             dataType: 'json', //返回值类型 一般设置为json
             success: function (data, status)  //服务器成功响应处理函数
             {
-                alert("上传成功");
+                if(data.code==1){
+                    alert("上传成功");
+                }
+
             },
             error : function (data, status, e)//服务器响应失败处理函数
             {
@@ -292,7 +295,9 @@ function myajax(path) {
         dataType: 'json', //返回值类型 一般设置为json
         success: function (data, status)  //服务器成功响应处理函数
         {
-            alert("上传成功");
+            if(data.code==1){
+                alert("上传成功");
+            }
         },
         error : function (data, status, e)//服务器响应失败处理函数
         {

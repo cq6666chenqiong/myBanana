@@ -2076,6 +2076,10 @@ school_sorce:
     path: /sorce/{userId}/index
     defaults: { _controller: TopxiaWebBundle:CourseSorce:index}
 
+school_member_sorce:
+    path: /sorce/member
+    defaults: { _controller: TopxiaWebBundle:CourseSorce:memberScore}
+
 school_work:
     path: /work/{userId}/index
     defaults: { _controller: TopxiaWebBundle:CourseWork:index}

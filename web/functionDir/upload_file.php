@@ -1,21 +1,15 @@
 <?php
 require_once 'phpExcelReader/Excel/reader.php';
 require_once 'System.php';
-
+//批量上传科室
 	$a = $_FILES["file"]["tmp_name"];
     error_log($a);
 	//$b = "/var/file/".$_FILES["file"]["name"];
-$b = "D://FK//".$_FILES["file"]["name"];
+    $b = "D://FK//".$_FILES["file"]["name"];
 	error_log($b);
 	if(move_uploaded_file($a,$b)){
-		
 	}else{
-		
 	}
-
-    error_log("success upload");
-
-
     // ExcelFile($filename, $encoding);
     $data = new Spreadsheet_Excel_Reader();
 
@@ -24,8 +18,6 @@ $b = "D://FK//".$_FILES["file"]["name"];
     $data->read($b);
 
     error_reporting(E_ALL ^ E_NOTICE);
-
-    error_log(DBADDR);
     $con = mysqli_connect(DBADDR,DBUSER,DBPASSWORD);
     if (!$con)
     {
@@ -46,20 +38,8 @@ $b = "D://FK//".$_FILES["file"]["name"];
     mysqli_multi_query($con,"set names 'utf8'");
     $result = mysqli_multi_query($con,$sql);
     $con->close();
-    error_log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        echo json_encode(array(
-            'a'=>1,
-            'b'=>2
-        ));
-    error_log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-
-/*
- * select u.nickname,
-(select count(1) from testpaper_result t where t.userId = u.id
-and t.passedStatus not in ('none','unpassed') ) xuefen,
-(select count(1) from testpaper_result f where f.userId = u.id
-and f.passedStatus in ('none','unpassed')
-) guake
-from user u LEFT JOIN user_profile p on u.id = p.id
- */
+    echo json_encode(array(
+        'code'=>1,
+        'status'=>'success'
+    ));
 ?>
