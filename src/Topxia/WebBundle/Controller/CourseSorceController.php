@@ -28,7 +28,7 @@ class CourseSorceController extends BaseController
         }
         $sql = "select u.nickname nickname,s.score xuefen,c.title title,s.createTime createTime,s.courseName courseName from user u 
         JOIN user_score s on s.userId = u.id 
-        join course c on s.courseId = c.id
+        left join course c on s.courseId = c.id
         where u.id = ".$userId.";";
         error_log($sql);
         mysqli_select_db($con,System::$DBNAME);

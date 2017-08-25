@@ -22,10 +22,11 @@ if (!$con)
 $sql = "";
 for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
     $usernumber = $data->sheets[0]['cells'][$i][1];
-    $sqlr = "select id from user where nickname = ".$usernumber.";";
+    $sqlr = "select id from user where nickname = '".$usernumber."';";
+
     mysqli_select_db($con,DBNAME);
     mysqli_query($con,"set names 'utf8'");
-    $resultr = mysqli_query($con,$sql);
+    $resultr = mysqli_query($con,$sqlr);
     $userId = "";
     if(!is_null($resultr)){
         while($row = mysqli_fetch_array($resultr)){
@@ -36,8 +37,10 @@ for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
     $score = $data->sheets[0]['cells'][$i][3];
     $year = $data->sheets[0]['cells'][$i][4];
     $sql = $sql."INSERT INTO `mybanana`.`user_score` ( `userId`, `score`, `testId`, `courseId`, `createTime`, `year`, `courseName`) 
-    VALUES ( '".$userId."', '".$score."', NULL, NULL, NULL, '".$year."', ".$courseName.")".";";
+    VALUES ( '".$userId."', '".$score."', NULL, NULL, NULL, '".$year."', '".$courseName."')".";";
 }
+
+error_log($sql);
 
 mysqli_select_db($con,DBNAME);
 mysqli_multi_query($con,"set names 'utf8'");
