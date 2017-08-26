@@ -159,7 +159,7 @@ class SorceStatisticalController  extends BaseController
         $beginTime = date($year."-01-01 00:00:00");
         $endTime = date($year."-12-31 23:59:59");
         $con = System::getConnection();
-        $sql = "select uk.id id,u.nickname nickname,c.title title,us.score score,us.createTime createTime,uk.job job,uk.idcard idcard,uk.company department  from user u ".
+        $sql = "select uk.id id,u.nickname nickname,c.title title,us.score score,us.createTime createTime,uk.job job,uk.idcard idcard,uk.company department,uk.varcharField2 varcharField2  from user u ".
                 "left outer join user_profile uk on u.id = uk.id ".
                 "left outer join user_score us on uk.id = us.userId ".
                 "left outer join course c on us.courseId = c.id ".
@@ -180,6 +180,8 @@ class SorceStatisticalController  extends BaseController
                   array_push($arry1,$row['job']);
                   array_push($arry1,$row['idcard']);
                   array_push($arry1,$row['department']);
+                  //array_push($arry1,$row['varcharField2']);
+                 // $arry1[7] = $row['varcharField2'];
                   if($row['score']>=13){
                       array_push($arry1,true);
                   }else{
@@ -195,6 +197,7 @@ class SorceStatisticalController  extends BaseController
                   }else{
                       $arry[$key][6] = false;
                   }
+                  $arry[$key][7] = $row['varcharField2'];
               }
         }
         error_log(json_encode($arry));
@@ -207,7 +210,7 @@ class SorceStatisticalController  extends BaseController
                 error_log("11111111");
             }
             $keshi = $arry[$key][5];
-            $zhicheng = $arry[$key][3];
+            $zhicheng = $arry[$key][7];
             $ispass = $arry[$key][6];
             $sql1 = "select DISTINCT(cll.courseId) courseId from course_lesson_learn cll ".
                 "left join course c on c.id = cll.courseId  ".

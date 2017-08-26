@@ -55,9 +55,12 @@
             </select>
             <input type="submit" value="查询" >
             <button onclick="getExcel()" style="float: right">Excel下载</button>
-            <button type="button" class="btn btn-info btn-sm button1" style="float: right" onclick="myajaxFileUpload('/functionDir/upload_member_score.php',null)" class="btn"><span class="glyphicon glyphicon-plus"></span>批量上传成绩</button>
+            <br>
             <input type="text" id="copyFile" name="copyFile"  style=" width:66%;margin-right:10px;display: none" />
-            <input type="file" class="input"id="file"  style="float: right"  name="file" onchange="getFile(this,'copyFile')"  />
+            <input type="file" class="input"id="file"  style="float: left"  name="file" onchange="getFile(this,'copyFile')"  />
+            <button type="button" class="btn btn-info btn-sm button1" style="float: left" onclick="myajaxFileUpload('/functionDir/upload_member_score.php',null)" ><span class="glyphicon glyphicon-plus"></span>批量上传成绩</button>
+            <br>
+            <br>
         </form>
 
     </div>
