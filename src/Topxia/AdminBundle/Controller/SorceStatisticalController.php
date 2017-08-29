@@ -21,6 +21,7 @@ class SorceStatisticalController  extends BaseController
     public function indexAction(Request $request){
         $year = $request->query->get("year");
         $department = $request->query->get("department");
+        $truename = $request->query->get("truename");
         if(is_null($year)||$year==''){
             $year=intval (date("Y"));
         }
@@ -29,6 +30,9 @@ class SorceStatisticalController  extends BaseController
         $condition="";
         if(!is_null($department)&&$department!=''){
             $condition = " and uk.company = ".$department;
+        }
+        if(!is_null($truename)&&$truename!=''){
+            $condition = " and uk.truename = '".$truename."'";
         }
         $con = System::getConnection();
         $sql = "select count(1) count from user u ".
@@ -43,7 +47,7 @@ class SorceStatisticalController  extends BaseController
          if(is_null($paginator->getCurrentPage())){
                 $paginator->setCurrentPage(1);
          }
-        $sql = "select uk.id id,u.nickname nickname,c.title title,ifnull(us.score,0) score,us.createTime createTime,uk.job job,uk.idcard idcard,uk.company department  from user u ".
+        $sql = "select uk.id id,u.nickname nickname,c.title title,ifnull(us.score,0) score,us.createTime createTime,uk.job job,uk.idcard idcard,uk.company department,uk.truename truename  from user u ".
             "left join user_profile uk on u.id = uk.id ".
             "left outer join user_score us on uk.id = us.userId ".
             "left join course c on us.courseId = c.id ".
@@ -72,6 +76,7 @@ class SorceStatisticalController  extends BaseController
                     array_push($arry1,false);
                 }
                 $arryw[$key] = $arry1;
+                $arryw[$key][7] = $row['truename'];
             }else{
                 $arryw[$key][2] = $arryw[$key][2] + $row['score'];
                 if($arryw[$key][2]>=13){
@@ -98,7 +103,8 @@ class SorceStatisticalController  extends BaseController
             $ar[0] = $ar[0]!=''?$ar[0]:'';
             $ar[1] = $item[1];
             $ar[2] = $item[3];
-            $ar[3] = System::getAgeByIDcard($item[4]);;
+            //$ar[3] = System::getAgeByIDcard($item[4]);;
+            $ar[3] = $item[7];
             $sql1 = "select DISTINCT(cll.courseId) courseId from course_lesson_learn cll ".
                     "left join course c on c.id = cll.courseId  ".
                     "where cll.userId = ".$item[0]."  and c.buyable = 1 ".
@@ -142,9 +148,10 @@ class SorceStatisticalController  extends BaseController
         return $this->render('TopxiaAdminBundle:sorce:score.html.twig', array(
             'arry'                       =>  $arry,
             'classr'                     =>  $result2,
-            'paginator'                  => $paginator,
-            'department'                => $department,
-            'year'                       => $year
+            'paginator'                  =>  $paginator,
+            'department'                 =>  $department,
+            'year'                        =>  $year,
+            'truename'                    =>  $truename
         ));
     }
 
@@ -188,7 +195,7 @@ class SorceStatisticalController  extends BaseController
                       array_push($arry1,false);
                   }
                   $arry[$key] = $arry1;
-
+                  $arry[$key][7] = $row['varcharField2'];
               }else{
                   $arry[$key][2] = $arry[$key][2] + $row['score'];
 
@@ -197,7 +204,7 @@ class SorceStatisticalController  extends BaseController
                   }else{
                       $arry[$key][6] = false;
                   }
-                  $arry[$key][7] = $row['varcharField2'];
+
               }
         }
         error_log(json_encode($arry));

@@ -12,7 +12,7 @@ $jsonData = makeData($year);//获取需要生成excel的数据
 
 //$rand = microtime();//定义文件名
 $rand = time();
-$filePath = "saveExcel/$rand.xlsx";//存放目录+文件
+$filePath = "saveExcel/$rand.xls";//存放目录+文件
 /*
 $tabelJsonHeader = json_encode(array(//定义excel文件头部
     0=>"id",//自增索引，用于根据此键获取对应的数据库值，数据库的键或者重命名的键（字段）
@@ -33,7 +33,7 @@ if(file_exists($filePath)){
     Header("Content-type: application/octet-stream");
     Header("Accept-Ranges: bytes");
     Header("Accept-Length: ".filesize($filePath));
-    Header("Content-Disposition: attachment; filename=" . "$rand.xlsx");
+    Header("Content-Disposition: attachment; filename=" . "$rand.xls");
     echo fread($file,filesize($filePath));
     fclose($file);
     exit;
@@ -46,7 +46,7 @@ function makeData($year){
     $beginTime = date($year."-01-01 00:00:00");
     $endTime = date($year."-12-30 23:59:59");
     $con = System::getConnection();
-    $sql = "select uk.id id,u.nickname nickname,c.title title,us.score score,us.createTime createTime,uk.job job,uk.idcard idcard,uk.company department  from user u ".
+    $sql = "select uk.id id,u.nickname nickname,c.title title,us.score score,us.createTime createTime,uk.job job,uk.idcard idcard,uk.company department,uk.varcharField2 varcharField2  from user u ".
         "left join user_profile uk on u.id = uk.id ".
         "left join user_score us on uk.id = us.userId ".
         "join course c on us.courseId = c.id ".
@@ -73,6 +73,7 @@ function makeData($year){
                 array_push($arry1,false);
             }
             $arry[$key] = $arry1;
+            $arry[$key][7] = $row['varcharField2'];
         }else{
             $arry[$key][2] = $arry[$key][2] + $row['score'];
             if($arry[$key][2]>=13){
@@ -92,7 +93,7 @@ function makeData($year){
     $kkeys = array();  //科室集合
     foreach($keys as $key){
         $keshi = $arry[$key][5];
-        $zhicheng = $arry[$key][3];
+        $zhicheng = $arry[$key][7];
         $ispass = $arry[$key][6];
         $sql1 = "select DISTINCT(cll.courseId) courseId from course_lesson_learn cll ".
             "left join course c on c.id = cll.courseId  ".

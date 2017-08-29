@@ -50,7 +50,7 @@ function makeData($year){
     $beginTime = date($year."-01-01 00:00:00");
     $endTime = date($year."-12-30 23:59:59");
     $con = getConnection();
-    $sql = "select uk.id id,u.nickname nickname,c.title title,us.score score,us.createTime createTime,uk.job job,uk.idcard idcard,uk.company department  from user u ".
+    $sql = "select uk.id id,u.nickname nickname,c.title title,us.score score,us.createTime createTime,uk.job job,uk.idcard idcard,uk.company department,uk.varcharField2 varcharField2  from user u ".
         "left join user_profile uk on u.id = uk.id ".
         "left join user_score us on uk.id = us.userId ".
         "join course c on us.courseId = c.id ".

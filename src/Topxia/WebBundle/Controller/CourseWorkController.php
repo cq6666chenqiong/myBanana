@@ -106,6 +106,7 @@ class CourseWorkController extends BaseController
         $memberType = $request->query->get('memberType');
         $jobType = $request->query->get('jobType');
         $birthday = $request->query->get('birthday');
+        $birthday_end = $request->query->get('birthday_end');
         $degree = $request->query->get('degree');
         $con = mysqli_connect(System::$DBADDR,System::$DBUSER,System::$DBPASSWORD);
         if (!$con)
@@ -124,22 +125,31 @@ class CourseWorkController extends BaseController
         }
 
         $users = array();
-        $sql = "select u.id id,u.nickname nickname,p.weixin num from user_profile p join user u on p.id = u.id where p.company = '".$keshi."'
-         and u.id not in ( select userId from course_member where courseId = ".$courseId.") ";
-        if(is_null($sskeshi)){
-            $sql = $sql." and p.varcharField4 = ".$sskeshi;
+        $sql = "select u.id id,u.nickname nickname,p.weixin num,p.truename truename from user_profile p join user u on p.id = u.id where  
+          u.id not in ( select userId from course_member where courseId = ".$courseId.") ";
+
+        if(!empty($keshi)){
+            $sql = $sql." and p.company = ".$keshi;
         }
-        if(is_null($memberType)){
-            $sql = $sql." and p.varcharField3 = ".$memberType;
+        if(!empty($sskeshi)){
+            $sql = $sql." and p.varcharField4 = '".$sskeshi."'";
         }
-        if(is_null($jobType)){
-            $sql = $sql." and p.job = ".$jobType;
+        if(!empty($memberType)){
+            $sql = $sql." and p.varcharField3 = '".$memberType."'";
         }
-        if(is_null($birthday)){
-            $sql = $sql." and p.varcharField1 like '%".$birthday."%'";
+        if(!empty($jobType)){
+            $sql = $sql." and p.job = '".$jobType."'";
         }
-        if(is_null($degree)){
-            $sql = $sql ." and p.varcharField5 = ".$degree;
+        if(!empty($birthday)){
+            $sql = $sql." and p.varcharField1 > '".$birthday."'";
+        }
+
+        if(!empty($birthday)){
+            $sql = $sql." and p.varcharField1 < '".$birthday_end."'";
+        }
+
+        if(!empty($degree)){
+            $sql = $sql ." and p.varcharField5 = '".$degree."'";
         }
         $sql = $sql  .";";
 

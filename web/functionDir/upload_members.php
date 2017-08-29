@@ -4,8 +4,8 @@ require_once 'System.php';
 //批量长传用户
 $a = $_FILES["file"]["tmp_name"];
 error_log($a);
-//$b = "/var/file/".$_FILES["file"]["name"];
-$b = "D:\\".$_FILES["file"]["name"];
+$b = "/var/file/".$_FILES["file"]["name"];
+//$b = "D:\\".$_FILES["file"]["name"];
 error_log($b);
 if(move_uploaded_file($a,$b)){
 

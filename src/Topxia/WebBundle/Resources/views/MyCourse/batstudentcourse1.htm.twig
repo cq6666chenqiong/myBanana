@@ -37,20 +37,23 @@
 
 
     <div class="form-group" style="width: 100%">
+
         <form action="{{ path('course_fetch_bat_student',{courseId:courseId}) }}">
+
             <div class="form-group">
                 科&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;室
                 <select id="keshi" name="keshi" style="width: 30%;border: 1px solid #ccc;border-radius: 4px;height: 34px;padding: 6px 12px;">
+                    <option value=""> 全选 </option>
                     {% for k in classr %}
                         <option {% if keshi == k.id %} selected {% endif %} value="{{ k.id }}"> {{ k.title }} </option>
                     {% endfor %}
                 </select>
-                所属科室
+                科室分类
                 <select id="sskeshi" name="sskeshi" style="width: 30%;border: 1px solid #ccc;border-radius: 4px;height: 34px;padding: 6px 12px;">
                     <option value=""> 全选 </option>
-                    <option value="护士"> 管理及其他部门 </option>
-                    <option value="技师"> 临床部门 </option>
-                    <option value="医生"> 医技部门 </option>
+                    <option value="管理及其他部门"> 管理及其他部门 </option>
+                    <option value="临床部门"> 临床部门 </option>
+                    <option value="医技部门"> 医技部门 </option>
                 </select>
             </div>
             <div class="form-group">
@@ -76,6 +79,10 @@
             <div class="form-group">
                 出生日期
                 <input type="text" name="birthday" style="width: 30%;border: 1px solid #ccc;border-radius: 4px;height: 34px;padding: 6px 12px;"/>
+                到
+                <input type="text" name="birthday_end" style="width: 30%;border: 1px solid #ccc;border-radius: 4px;height: 34px;padding: 6px 12px;"/>
+            </div>
+            <div class="form-group">
                 最高学位
                 <select id="degree" name="degree" style="width: 30%;border: 1px solid #ccc;border-radius: 4px;height: 34px;padding: 6px 12px;">
                     <option value=""> 全选 </option>
@@ -114,6 +121,7 @@
             <button type="submit" clas="btn bbtn btn-info btn-sm mhs" style="width: 10%">搜索</button>
         </form>
     </div>
+
     <div class="form-group" style="width: 100%">
         <input input type="checkbox" id="all"  onclick="bat()">全选
     </div>
@@ -131,8 +139,8 @@
                 {% for u in users %}
                    <tr>
                        <td><input type="checkbox" name="uid" value="{{ u.id }}"/></td>
-                       <td>{{ u.num }}</td>
-                       <td>{{ u.nickname  }}</td>
+                       <td>{{ u.nickname }}</td>
+                       <td>{{ u.truename  }}</td>
                    </tr>
                 {% endfor %}
                 </tbody>

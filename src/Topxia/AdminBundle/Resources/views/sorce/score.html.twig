@@ -7,7 +7,8 @@
         function getExcel(){
             var year = $("#year").val();
             var department = $("#department").val();
-            myajax('/functionDir/createExcel/make_xueshengtongji.php?year='+year+'&department='+department);
+            var truename = $("#truename").val();
+            myajax('/functionDir/createExcel/make_xueshengtongji.php?year='+year+'&department='+department+'&truename='+truename);
         }
         function fun(e){
             $num = $(e).attr('data_id');
@@ -53,12 +54,16 @@
                    <option {% if department == k.id %} selected {% endif %} value="{{ k.id }}">{{ k.title }}</option>
                 {% endfor %}
             </select>
+            <span>姓名</span>
+            <input id="truename" type="text" name="truename" value="{{ truename }}"/>
             <input type="submit" value="查询" >
             <button onclick="getExcel()" style="float: right">Excel下载</button>
             <br>
             <input type="text" id="copyFile" name="copyFile"  style=" width:66%;margin-right:10px;display: none" />
             <input type="file" class="input"id="file"  style="float: left"  name="file" onchange="getFile(this,'copyFile')"  />
             <button type="button" class="btn btn-info btn-sm button1" style="float: left" onclick="myajaxFileUpload('/functionDir/upload_member_score.php',null)" ><span class="glyphicon glyphicon-plus"></span>批量上传成绩</button>
+
+            <a href="/functionDir/download_score.php" style="float: right">下载批量长传成绩模板</a>
             <br>
             <br>
         </form>
@@ -71,7 +76,7 @@
             <th>科室名称</th>
             <th>工号</th>
             <th>职称</th>
-            <th>年龄</th>
+            <th>姓名</th>
             <th>是否合格</th>
             <th>备注</th>
         </tr>

@@ -9,11 +9,12 @@ ini_set('date.timezone','Asia/Shanghai');
 error_log("in come");
 $year = $_GET['year'];
 $department = $_GET['department'];
-$jsonData = makeData($year,$department);//获取需要生成excel的数据
+$truename = $_GET['truename'];
+$jsonData = makeData($year,$department,$truename);//获取需要生成excel的数据
 
 //$rand = microtime();//定义文件名
 $rand = time();
-$filePath = "saveExcel/$rand.xlsx";//存放目录+文件
+$filePath = "saveExcel/$rand.xls";//存放目录+文件
 /*
 $tabelJsonHeader = json_encode(array(//定义excel文件头部
     0=>"id",//自增索引，用于根据此键获取对应的数据库值，数据库的键或者重命名的键（字段）
@@ -33,13 +34,13 @@ if(file_exists($filePath)){
     Header("Content-type: application/octet-stream");
     Header("Accept-Ranges: bytes");
     Header("Accept-Length: ".filesize($filePath));
-    Header("Content-Disposition: attachment; filename=" . "$rand.xlsx");
+    Header("Content-Disposition: attachment; filename=" . "$rand.xls");
     echo fread($file,filesize($filePath));
     fclose($file);
     exit;
 }
 
-function makeData($year,$department){
+function makeData($year,$department,$truename){
 
     if(is_null($year)||$year==''){
         $year=intval (date("Y"));
@@ -49,6 +50,9 @@ function makeData($year,$department){
     $condition="";
     if(!is_null($department)&&$department!=''){
         $condition = " and uk.company = ".$department;
+    }
+    if(!is_null($truename)&&$truename!=''){
+        $condition = " and uk.truename = '".$truename."'";
     }
     $con = System::getConnection();
     /*
@@ -65,7 +69,7 @@ function makeData($year,$department){
         $paginator->setCurrentPage(1);
     }
     */
-    $sql = "select uk.id id,u.nickname nickname,c.title title,ifnull(us.score,0) score,us.createTime createTime,uk.job job,uk.idcard idcard,uk.company department  from user u ".
+    $sql = "select uk.id id,u.nickname nickname,c.title title,ifnull(us.score,0) score,us.createTime createTime,uk.job job,uk.idcard idcard,uk.company department,uk.truename truename  from user u ".
         "left join user_profile uk on u.id = uk.id ".
         "left outer join user_score us on uk.id = us.userId ".
         "left join course c on us.courseId = c.id ".
@@ -93,6 +97,7 @@ function makeData($year,$department){
                 array_push($arry1,false);
             }
             $arryw[$key] = $arry1;
+            $arryw[$key][7] = $row['truename'];
         }else{
             $arryw[$key][2] = $arryw[$key][2] + $row['score'];
             if($arryw[$key][2]>=13){
@@ -117,8 +122,9 @@ function makeData($year,$department){
         $ar[0] = $departments[$item[5]];
         $ar[1] = $item[1];
         $ar[2] = $item[3];
-        $age = System::getAgeByIDcard($item[4]);
-        $ar[3] = $age;
+        //$age = System::getAgeByIDcard($item[4]);
+        //$ar[3] = $age;
+        $ar[3] = $item[7];
         $sql1 = "select DISTINCT(cll.courseId) courseId from course_lesson_learn cll ".
             "left join course c on c.id = cll.courseId  ".
             "where cll.userId = ".$item[0]."  and c.buyable = 1 ".
