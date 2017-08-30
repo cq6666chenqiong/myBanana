@@ -70,10 +70,10 @@
                 职称分类
                 <select id="jobType" name="jobType" style="width: 30%;border: 1px solid #ccc;border-radius: 4px;height: 34px;padding: 6px 12px;">
                     <option value=""> 全选 </option>
-                    <option value="护士"> 正高 </option>
-                    <option value="技师"> 副高 </option>
-                    <option value="医生"> 中级 </option>
-                    <option value="药师"> 初级 </option>
+                    <option value="正高"> 正高 </option>
+                    <option value="副高"> 副高 </option>
+                    <option value="中级"> 中级 </option>
+                    <option value="初级"> 初级 </option>
                 </select>
             </div>
             <div class="form-group">
@@ -133,6 +133,7 @@
                         <td>选择框</td>
                         <td>工号</td>
                         <td>姓名</td>
+                        <td>科室</td>
                     </tr>
                 </th>
                 <tbody id="userMemberBody">
@@ -141,6 +142,7 @@
                        <td><input type="checkbox" name="uid" value="{{ u.id }}"/></td>
                        <td>{{ u.nickname }}</td>
                        <td>{{ u.truename  }}</td>
+                       <td>{{ classr1[u.company] }}</td>
                    </tr>
                 {% endfor %}
                 </tbody>

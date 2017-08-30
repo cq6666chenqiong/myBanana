@@ -101,6 +101,7 @@ class CourseWorkController extends BaseController
 
     public function batstudent1indexAction(Request $request,$courseId){
         $classr = array();
+        $classr1 = array();
         $keshi = $request->query->get('keshi');
         $sskeshi = $request->query->get('sskeshi');
         $memberType = $request->query->get('memberType');
@@ -120,12 +121,19 @@ class CourseWorkController extends BaseController
 
         if(!is_null($result)){
             while($row = mysqli_fetch_array($result)){
+                //array_push($classr,$row);
+                $classr1[$row['id']] = $row['title'];
+            }
+        }
+
+        if(!is_null($result)){
+            while($row = mysqli_fetch_array($result)){
                 array_push($classr,$row);
             }
         }
 
         $users = array();
-        $sql = "select u.id id,u.nickname nickname,p.weixin num,p.truename truename from user_profile p join user u on p.id = u.id where  
+        $sql = "select u.id id,u.nickname nickname,p.weixin num,p.truename truename,p.company company  from user_profile p join user u on p.id = u.id where  
           u.id not in ( select userId from course_member where courseId = ".$courseId.") ";
 
         if(!empty($keshi)){
@@ -138,7 +146,7 @@ class CourseWorkController extends BaseController
             $sql = $sql." and p.varcharField3 = '".$memberType."'";
         }
         if(!empty($jobType)){
-            $sql = $sql." and p.job = '".$jobType."'";
+            $sql = $sql." and p.varcharField2 = '".$jobType."'";
         }
         if(!empty($birthday)){
             $sql = $sql." and p.varcharField1 > '".$birthday."'";
@@ -151,7 +159,7 @@ class CourseWorkController extends BaseController
         if(!empty($degree)){
             $sql = $sql ." and p.varcharField5 = '".$degree."'";
         }
-        $sql = $sql  .";";
+        $sql = $sql  ." order by p.company;";
 
         mysqli_select_db($con,System::$DBNAME);
         mysqli_query($con,"set names 'utf8'");
@@ -170,7 +178,8 @@ class CourseWorkController extends BaseController
             'users'      => $users,
             'courseId'   =>$courseId,
             'course'     => $course,
-            'keshi'      => $keshi
+            'keshi'      => $keshi,
+            'classr1'    => $classr1
         ));
     }
 

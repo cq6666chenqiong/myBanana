@@ -53,8 +53,8 @@ class CourseSorceController extends BaseController
     {
         $userNum = $request->query->get('memberNum');
         $con = System::getConnection();
-        $sql = "select u.nickname memberNum, p.truename truename ,s.score score ,c.title title,s.courseName courseName,s.year year 
-        from user_score s join user u on s.userId = u.id join user_profile p on p.id = u.id 
+        $sql = "select u.nickname memberNum, p.truename truename ,s.score score ,c.title title,s.courseName courseName,s.year year, 
+        s.remark remark from user_score s join user u on s.userId = u.id join user_profile p on p.id = u.id 
         left join course c on c.id = s.courseId
         where u.nickname =  '" . $userNum . "';";
         $result = System::getManyResult($con, $sql);

@@ -4,8 +4,8 @@ require_once 'System.php';
 //批量上传成绩
 $a = $_FILES["file"]["tmp_name"];
 error_log($a);
-$b = "/var/file/".$_FILES["file"]["name"];
-//$b = "D://FK//".$_FILES["file"]["name"];
+//$b = "/var/file/".$_FILES["file"]["name"];
+$b = "D://FK//".$_FILES["file"]["name"];
 error_log($b);
 if(move_uploaded_file($a,$b)){
 }else{
@@ -36,8 +36,9 @@ for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
     $courseName = $data->sheets[0]['cells'][$i][2];
     $score = $data->sheets[0]['cells'][$i][3];
     $year = $data->sheets[0]['cells'][$i][4];
-    $sql = $sql."INSERT INTO `user_score` ( `userId`, `score`, `testId`, `courseId`, `createTime`, `year`, `courseName`) 
-    VALUES ( '".$userId."', '".$score."', NULL, NULL, NULL, '".$year."', '".$courseName."')".";";
+    $remark = $data->sheets[0]['cells'][$i][5];
+    $sql = $sql."INSERT INTO `user_score` ( `userId`, `score`, `testId`, `courseId`, `createTime`, `year`, `courseName`, `remark`) 
+    VALUES ( '".$userId."', '".$score."', NULL, NULL, NULL, '".$year."', '".$courseName."', '".$remark."')".";";
 }
 
 error_log($sql);

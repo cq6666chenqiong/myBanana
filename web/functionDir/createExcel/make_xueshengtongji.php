@@ -143,7 +143,7 @@ function makeData($year,$department,$truename){
         foreach ($rresult1 as $r1){
             if(!in_array($r1['courseId'],$arr1)){
                 $tag = false;
-                $remark1 = "有必修课未及格";
+                $remark1 = "有必修课未合格";
                 break;
             }
         }
@@ -153,9 +153,9 @@ function makeData($year,$department,$truename){
             $remark2 = "总学分小于13分";
         }
         if($score>=13&&$tag){
-            $ar[4] = "及格";
+            $ar[4] = "合格";
         }else{
-            $ar[4] = "不及格";
+            $ar[4] = "不合格";
         }
         $ar[5] = $remark2.",".$remark1;
         error_log($ar[5]);

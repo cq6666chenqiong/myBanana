@@ -28,7 +28,7 @@ class UserController extends BaseController
         }
 
         $conditions = array_merge($conditions, $fields);
-
+        error_log('log============='+json_encode($conditions));
         if (isset($conditions['orgCode'])) {
             $conditions['likeOrgCode'] = $conditions['orgCode'];
         }
@@ -94,6 +94,7 @@ class UserController extends BaseController
         //kehsi
         //科室列表
         $classr = array();
+        $classr1 = array();
         $con = mysqli_connect(System::$DBADDR,System::$DBUSER,System::$DBPASSWORD);
         if (!$con)
         {
@@ -109,6 +110,16 @@ class UserController extends BaseController
                 $classr[$row['id']]=$row['title'];
             }
         }
+
+        mysqli_select_db($con,System::$DBNAME);
+        mysqli_query($con,"set names 'utf8'");
+        $resultc = mysqli_query($con,"select id,title from classroom where status = 'published'");
+        if(!is_null($resultc)){
+            while($row = mysqli_fetch_array($resultc)){
+                array_push($classr1,$row);
+            }
+        }
+
         mysqli_close($con);
 
         return $this->render('TopxiaAdminBundle:User:index.html.twig', array(
@@ -117,7 +128,8 @@ class UserController extends BaseController
             'paginator'      => $paginator,
             'profiles'       => $profiles,
             'showUserExport' => $showUserExport,
-            'classr'      => $classr
+            'classr'      => $classr,
+            'classr1'     => $classr1
         ));
     }
 
