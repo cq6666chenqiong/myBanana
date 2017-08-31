@@ -19,6 +19,7 @@ class UserController extends BaseController
         $memberNum = isset($fields['keyword'])?$fields['keyword']:'';
         $truename = isset($fields['truename'])?$fields['truename']:'';
         $company = isset($fields['company'])?$fields['company']:'';
+        $page = isset($fields['page'])?$fields['page']:'';
         $conditions = array(
             'roles'           => '',
             'keywordType'     => '',
@@ -40,7 +41,7 @@ class UserController extends BaseController
         $sqlWhere = "";
 
         if(!empty($memberNum)){
-            $sqlWhere = $sqlWhere." and u.nickname = ".$memberNum;
+            $sqlWhere = $sqlWhere." and u.nickname = '".$memberNum."'";
         }
 
         if(!empty($truename)){
@@ -69,8 +70,11 @@ class UserController extends BaseController
             $paginator->getPerPageCount()
         );
 */
+       if(empty($page)){
+           $page = 1;
+       }
 
-        $sql = "select * from user u join user_profile p on u.id = p.id where 1=1".$sqlWhere.";";
+        $sql = "select * from user u join user_profile p on u.id = p.id where 1=1".$sqlWhere." limit ".(($page-1)*20).",20 ;";
         $users = System::getManyResult($con,$sql);
 //根据mobile查询user_profile获得userIds
 
@@ -148,7 +152,7 @@ class UserController extends BaseController
         }
 
         mysqli_close($con);
-
+     error_log("price");
         return $this->render('TopxiaAdminBundle:User:index.html.twig', array(
             'users'          => $users,
             'userCount'      => $userCount,
