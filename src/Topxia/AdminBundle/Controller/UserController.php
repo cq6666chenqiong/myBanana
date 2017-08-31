@@ -14,7 +14,11 @@ class UserController extends BaseController
     {
         $user   = $this->getCurrentUser();
         $fields = $request->query->all();
+        error_log('log============='.json_encode($fields));
 
+        $memberNum = isset($fields['keyword'])?$fields['keyword']:'';
+        $truename = isset($fields['truename'])?$fields['truename']:'';
+        $company = isset($fields['company'])?$fields['company']:'';
         $conditions = array(
             'roles'           => '',
             'keywordType'     => '',
@@ -28,28 +32,50 @@ class UserController extends BaseController
         }
 
         $conditions = array_merge($conditions, $fields);
-        error_log('log============='+json_encode($conditions));
+
         if (isset($conditions['orgCode'])) {
             $conditions['likeOrgCode'] = $conditions['orgCode'];
         }
 
-        $userCount = $this->getUserService()->searchUserCount($conditions);
+        $sqlWhere = "";
+
+        if(!empty($memberNum)){
+            $sqlWhere = $sqlWhere." and u.nickname = ".$memberNum;
+        }
+
+        if(!empty($truename)){
+            $sqlWhere = $sqlWhere." and p.truename = '".$truename."'";
+        }
+
+        if(!empty($company)){
+            $sqlWhere = $sqlWhere." and p.company = ".$company;
+        }
+
+        //$userCount = $this->getUserService()->searchUserCount($conditions);
+        $con = System::getConnection();
+        $sql = "select count(1) count from user u join user_profile p on u.id = p.id where 1=1".$sqlWhere.";";
+        $resultNum =  System::getOneResult($con,$sql);
+        $userCount = $resultNum['count'];
         $paginator = new Paginator(
             $this->get('request'),
             $userCount,
             20
         );
-
+/*
         $users = $this->getUserService()->searchUsers(
             $conditions,
             array('createdTime', 'DESC'),
             $paginator->getOffsetCount(),
             $paginator->getPerPageCount()
         );
+*/
 
+        $sql = "select * from user u join user_profile p on u.id = p.id where 1=1".$sqlWhere.";";
+        $users = System::getManyResult($con,$sql);
 //根据mobile查询user_profile获得userIds
 
         if (isset($conditions['keywordType']) && $conditions['keywordType'] == 'verifiedMobile' && !empty($conditions['keyword'])) {
+           /*
             $profilesCount = $this->getUserService()->searchUserProfileCount(array('mobile' => $conditions['keyword']));
             $userProfiles  = $this->getUserService()->searchUserProfiles(
                 array('mobile' => $conditions['keyword']),
@@ -58,7 +84,8 @@ class UserController extends BaseController
                 $profilesCount
             );
             $userIds       = ArrayToolkit::column($userProfiles, 'id');
-
+           */
+           error_log("jinru");
             if (!empty($userIds)) {
                 unset($conditions['keywordType']);
                 unset($conditions['keyword']);
@@ -129,7 +156,10 @@ class UserController extends BaseController
             'profiles'       => $profiles,
             'showUserExport' => $showUserExport,
             'classr'      => $classr,
-            'classr1'     => $classr1
+            'classr1'     => $classr1,
+            'memberNum'  => $memberNum,
+            'truename'  => $truename,
+            'company'  => $company
         ));
     }
 

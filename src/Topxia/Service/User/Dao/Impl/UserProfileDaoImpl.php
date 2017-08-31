@@ -156,7 +156,7 @@ class UserProfileDaoImpl extends BaseDao implements UserProfileDao
         if (isset($conditions['keywordType']) && isset($conditions['keyword']) && $conditions['keywordType'] == 'idcard') {
             $conditions['idcard'] = "%{$conditions['keyword']}%";
         }
-        error_log('log============='+json_encode($conditions));
+        error_log('log=======1======'.json_encode($conditions));
         return $this->createDynamicQueryBuilder($conditions)
             ->from($this->table, 'user_profile')
             ->andWhere('mobile LIKE :mobile')
