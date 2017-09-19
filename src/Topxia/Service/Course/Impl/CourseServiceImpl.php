@@ -1022,7 +1022,7 @@ class CourseServiceImpl extends BaseService implements CourseService
             'mediaId'       => 0,
             'length'        => 0,
             'startTime'     => 0,
-            'giveCredit'    => 0,
+            'giveCredit'    => '',
             'requireCredit' => 0,
             'liveProvider'  => 'none',
             'copyId'        => 0,
@@ -1030,25 +1030,25 @@ class CourseServiceImpl extends BaseService implements CourseService
             'testStartTime' => 0,
             'suggestHours'  => '0.0'
         ));
-        error_log('21');
+
         if (!ArrayToolkit::requireds($lesson, array('courseId', 'title', 'type'))) {
             throw $this->createServiceException('参数缺失，创建课时失败！');
         }
-        error_log('22');
+
         if (empty($lesson['courseId'])) {
             throw $this->createServiceException('添加课时失败，课程ID为空。');
         }
-        error_log('23');
+
         $course = $this->getCourse($lesson['courseId'], true);
 
         if (empty($course)) {
             throw $this->createServiceException('添加课时失败，课程不存在。');
         }
-        error_log('24');
+
         if (!in_array($lesson['type'], array('text', 'audio', 'video', 'testpaper', 'live', 'ppt', 'document', 'flash',"pdf"))) {
             throw $this->createServiceException('课时类型不正确，添加失败！');
         }
-        error_log('25');
+
         $this->fillLessonMediaFields($lesson);
 
 //课程内容的过滤 @todo
@@ -1120,28 +1120,28 @@ class CourseServiceImpl extends BaseService implements CourseService
 
     protected function fillLessonMediaFields(&$lesson)
     {
-        error_log("30");
+
         if (in_array($lesson['type'], array('video', 'audio', 'ppt', 'document', 'flash'))) {
             $media = empty($lesson['media']) ? null : $lesson['media'];
-            error_log("301");
+
             $media['name'] = "jiebo";
             if (empty($media) || empty($media['source']) || empty($media['name'])) {
                 throw $this->createServiceException("media参数不正确，添加课时失败！");
             }
-            error_log("31");
+
             if ($media['source'] == 'self') {
                 $media['id'] = intval($media['id']);
-                error_log("32");
+
                 if (empty($media['id'])) {
                     throw $this->createServiceException("media id参数不正确，添加/编辑课时失败！");
                 }
-                error_log("33");
+
                 $file = $this->getUploadFileService()->getFile($media['id']);
 
                 if (empty($file)) {
                     throw $this->createServiceException('文件不存在，添加/编辑课时失败！');
                 }
-                error_log("34");
+
                 $lesson['mediaId']     = $file['id'];
                 $lesson['mediaName']   = $file['filename'];
                 $lesson['mediaSource'] = 'self';
@@ -1150,25 +1150,25 @@ class CourseServiceImpl extends BaseService implements CourseService
                 if (empty($media['uri'])) {
                     throw $this->createServiceException("media uri参数不正确，添加/编辑课时失败！");
                 }
-                error_log("35");
+
                 $lesson['mediaId']     = 0;
                 $lesson['mediaName']   = $media['name'];
                 $lesson['mediaSource'] = $media['source'];
                 $lesson['mediaUri']    = $media['uri'];
             }
         } elseif ($lesson['type'] == 'testpaper') {
-            error_log("36");
+
             $lesson['mediaId'] = $lesson['mediaId'];
         } elseif ($lesson['type'] == 'live') {
             error_log("37");
         } else {
-            error_log("38");
+
             $lesson['mediaId']     = 0;
             $lesson['mediaName']   = '';
             $lesson['mediaSource'] = '';
             $lesson['mediaUri']    = '';
         }
-        error_log("39");
+
         unset($lesson['media']);
 
         return $lesson;
@@ -1231,7 +1231,7 @@ class CourseServiceImpl extends BaseService implements CourseService
             'free'          => 0,
             'length'        => 0,
             'startTime'     => 0,
-            'giveCredit'    => 0,
+            'giveCredit'    => '',
             'requireCredit' => 0,
             'homeworkId'    => 0,
             'exerciseId'    => 0,
@@ -1246,7 +1246,6 @@ class CourseServiceImpl extends BaseService implements CourseService
         }
 
         $fields['type'] = $lesson['type'];
-
         if ($fields['type'] == 'live' && isset($fields['startTime'])) {
             $fields['endTime']      = $fields['startTime'] + $fields['length'] * 60;
             $fields['suggestHours'] = $fields['length'] / 60;

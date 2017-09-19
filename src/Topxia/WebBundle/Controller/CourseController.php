@@ -355,11 +355,11 @@ class CourseController extends CourseBaseController
                 $course['studentNum']++;
             }
         }
-
-        $this->getCourseService()->hitCourse($id);
+        //点击次数
+        //$this->getCourseService()->hitCourse($id);
 
         $items = $this->getCourseService()->getCourseItems($course['id']);
-
+        error_log(json_encode($items));
         return $this->render("TopxiaWebBundle:Course:{$course['type']}-show.html.twig", array(
             'course' => $course,
             'member' => $member,

@@ -20,7 +20,7 @@ class CourseLessonManageController extends BaseController
 
         if ($request->getMethod() == 'POST') {
             $fields = $request->request->all();
-
+            error_log(json_encode($fields));
             if ($fields['media']) {
                 $fields['media'] = json_decode($fields['media'], true);
                 if(strstr($fields['media']['uri'],".pdf")){
@@ -36,7 +36,7 @@ class CourseLessonManageController extends BaseController
                 unset($fields['minute']);
                 unset($fields['second']);
             }
-
+            error_log(json_encode($fields));
             $fields['free'] = empty($fields['free']) ? 0 : 1;
             $lesson         = $this->getCourseService()->updateLesson($course['id'], $lesson['id'], $fields);
             $this->getCourseService()->deleteCourseDrafts($course['id'], $lesson['id'], $this->getCurrentUser()->id);
