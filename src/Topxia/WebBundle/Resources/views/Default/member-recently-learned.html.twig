@@ -27,7 +27,7 @@
         {% set nextLearnLesson = course.nextLearnLesson %}
         {% if nextLearnLesson %}
           <div class="continue">
-            <a href="{{ path('course_learn', {id:course.id}) }}#lesson/{{nextLearnLesson.id}}" title="{{'继续学习：'|trans}}{{ nextLearnLesson.title }}" class="btn btn-success pull-right">{{'继续学习'|trans}}</a>
+            <a href="{{ path('course_learn', {id:course.id}) }}#lesson/{{nextLearnLesson.id}}" title="{{'开始学习：'|trans}}{{ nextLearnLesson.title }}" class="btn btn-success pull-right">{{'开始学习'|trans}}</a>
           </div>
         {% endif %}
       </div>
