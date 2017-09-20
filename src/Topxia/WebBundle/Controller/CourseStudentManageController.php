@@ -45,7 +45,7 @@ class CourseStudentManageController extends BaseController
         foreach ($students as $student) {
             $progresses[$student['userId']] = $this->calculateUserLearnProgress($course, $student);
         }
-
+        error_log(json_encode($progresses));
         $courseSetting              = $this->getSettingService()->get('course', array());
         $isTeacherAuthManageStudent = !empty($courseSetting['teacher_manage_student']) ? 1 : 0;
         $default                    = $this->getSettingService()->get('default', array());

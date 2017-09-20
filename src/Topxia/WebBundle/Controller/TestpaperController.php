@@ -317,28 +317,29 @@ class TestpaperController extends BaseController
                 mysqli_query($con,"set names 'utf8'");
                 $result4 = mysqli_query($con,$sql6);
             }
-
-
-        }
-        /*
-        else{
-            $sql5 = "select * from user_score where userId = ".$testpaperResult['userId']." and testId = ".$testpaperResult['testId'].";";
-            error_log($sql5);
+            $sql7 = "select * from course where id = ".$t.";";
             mysqli_select_db($con,System::$DBNAME);
             mysqli_query($con,"set names 'utf8'");
-            $result5 = mysqli_query($con,$sql5);
-            $r5 = mysqli_fetch_array($result5);
+            $result4 = mysqli_query($con,$sql7);
+            $courseMessage = mysqli_fetch_array($result4);
+            $lessonNum = $courseMessage['lessonNum'];
 
-            if(is_null($r5)){
-                $sql4 ="INSERT INTO `user_score` (`userId`, `score`, `testId`,`courseId`,`createTime`) VALUES ('".$testpaperResult['userId']."', '0', '".$testpaperResult['testId']."','".$t."',NOW());";
-                error_log($sql4);
-                mysqli_select_db($con,System::$DBNAME);
-                mysqli_query($con,"set names 'utf8'");
-                $result4 = mysqli_query($con,$sql4);
-            }
+            $sql8 = "UPDATE `course_lesson_learn` SET `status`='finished' WHERE (`userId`=".$testpaperResult['userId']." and `courseId`='".$t."');";
+            mysqli_select_db($con,System::$DBNAME);
+            mysqli_query($con,"set names 'utf8'");
+            $result4 = mysqli_query($con,$sql8);
+
+
+            $sql9 = "UPDATE `course_member` SET `isLearned`='1' , `learnedNum` = ".$lessonNum." WHERE (`userId`=".$testpaperResult['userId']." and `courseId`='".$t."');";
+            mysqli_select_db($con,System::$DBNAME);
+            mysqli_query($con,"set names 'utf8'");
+            $result4 = mysqli_query($con,$sql9);
+
+            $sql10 = "UPDATE `course_lesson_learn` SET `status`='finished' WHERE (`userId`=".$testpaperResult['userId']." and `courseId`='".$t."');";
+            mysqli_select_db($con,System::$DBNAME);
+            mysqli_query($con,"set names 'utf8'");
+            $result4 = mysqli_query($con,$sql10);
         }
-        */
-
         return $this->render('TopxiaWebBundle:QuizQuestionTest:testpaper-result.html.twig', array(
             'items'       => $items,
             'accuracy'    => $accuracy,
