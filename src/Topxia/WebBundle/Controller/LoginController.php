@@ -14,18 +14,18 @@ class LoginController extends BaseController
         if ($user->isLogin()) {
             return $this->createMessageResponse('info', '你已经登录了', null, 3000, $this->generateUrl('homepage'));
         }
-        error_log("aaaaa");
+
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
         } else {
             $error = $request->getSession()->get(SecurityContext::AUTHENTICATION_ERROR);
         }
-        error_log("aaaaa11111111");
+
         if ($this->getWebExtension()->isMicroMessenger() && $this->setting('login_bind.enabled', 0) && $this->setting('login_bind.weixinmob_enabled', 0)) {
             $inviteCode = $request->query->get('inviteCode');
             return $this->redirect($this->generateUrl('login_bind', array('type' => 'weixinmob', '_target_path' => $this->getTargetPath($request), 'inviteCode' => $inviteCode)));
         }
-        error_log("aaaaa11111112221");
+
         return $this->render('TopxiaWebBundle:Login:index.html.twig', array(
             'last_username' => $request->getSession()->get(SecurityContext::LAST_USERNAME),
             'error'         => $error,

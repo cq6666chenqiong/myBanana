@@ -1082,11 +1082,11 @@ class CourseServiceImpl extends BaseService implements CourseService
         if (array_key_exists('copyId', $lesson)) {
             $lesson['copyId'] = $lesson['copyId'];
         }
-
+        error_log('41');
         $lesson = $this->getLessonDao()->addLesson(
             LessonSerialize::serialize($lesson)
         );
-
+        error_log('42');
         $this->updateCourseCounter($course['id'], array(
             'lessonNum'  => $this->getLessonDao()->getLessonCountByCourseId($course['id']),
             'giveCredit' => $this->getLessonDao()->sumLessonGiveCreditByCourseId($course['id'])

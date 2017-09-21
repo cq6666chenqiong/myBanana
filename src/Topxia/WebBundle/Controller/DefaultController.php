@@ -12,6 +12,7 @@ class DefaultController extends BaseController
     {
 
         $user = $this->getCurrentUser();
+
         if (!empty($user['id'])) {
             $this->getBatchNotificationService()->checkoutBatchNotification($user['id']);
         }
